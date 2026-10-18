@@ -1,6 +1,6 @@
 using System;
 namespace trabajoPracticoPOO{
-    public class Vehiculo{
+    public abstract class Vehiculo{
         
         //Atributos
         protected string patente;
@@ -27,5 +27,8 @@ namespace trabajoPracticoPOO{
             this.estaDisponible = false;
         }
 
+        //Metodos
+        public abstract void mostrar();
+        public abstract double calcularCostoPorDia();
     }
 }
