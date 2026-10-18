@@ -7,11 +7,12 @@ namespace trabajoPracticoPOO{
         private double costoTotal;
 
         //Constructores
-        public Alquiler( Cliente cliente, Vehiculo vehiculo, int dias, double costoTotal ){
+        public Alquiler( Cliente cliente, Vehiculo vehiculo, int dias ){
             this.cliente = cliente;
             this.vehiculo = vehiculo;
             this.dias = dias;
-            this.costoTotal = costoTotal;
+            costoTotal = dias*vehiculo.calcularCostoPorDia();
         }
+        //Metodos
     }
 }

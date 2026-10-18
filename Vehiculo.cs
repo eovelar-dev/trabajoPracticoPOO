@@ -9,6 +9,7 @@ namespace trabajoPracticoPOO{
         protected int año;
         protected double precioPorDia;
         protected bool estaDisponible;
+        protected bool seguroAdicional = false;
 
         //Constructores
         public Vehiculo( string patente, string marca, string modelo, int año, double precioPorDia, bool estaDisponible ){
