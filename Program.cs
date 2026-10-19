@@ -8,6 +8,7 @@ namespace trabajoPracticoPOO{
             List<Vehiculo> listaDeVehiculos = new List<Vehiculo>();
             leerAutos( "listaDeVehiculos.csv", listaDeVehiculos );
             int opcion = 0;
+            Console.WriteLine(listaDeVehiculos[0].obtenerCsv());
             do{
                 Console.WriteLine("MENU PRINCIPAL\n[1]Agregar un vehiculo a la agencia\n[2]Eliminar un vehiculo utilizando la patente\n[3]Registrar un cliente\n[4]Realizar un alquiler\n[5]Mostrar listado completo de vehiculos\n[6]Salir");
                 try{
@@ -33,8 +34,8 @@ namespace trabajoPracticoPOO{
                 case 3: break;
                 case 4: break;
                 case 5: mostrarListadoDeVehiculos( listaDeVehiculos );
-                        teclaParaContinuar();
-                        break;
+                teclaParaContinuar();
+                break;
                 case 6: break;
                 default: break;
             }
@@ -47,17 +48,6 @@ namespace trabajoPracticoPOO{
             Console.WriteLine("Presione cualquier tecla para continuar...");
             Console.ReadKey(true);
             Console.Clear();
-        }
-        public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){
-            if( lista.Count>0 ){
-                foreach( Vehiculo v in lista ){
-                    v.mostrar();
-                    Console.WriteLine("************");
-                }
-            }
-            else{
-                Console.WriteLine("No se encontro ningun vehiculo registrado.");
-            }
         }
         public static void validarOpcion( int opcion, int minimo, int maximo ){
             if( opcion<minimo || opcion>maximo ){
@@ -117,6 +107,18 @@ namespace trabajoPracticoPOO{
             }
             else{
                 Console.WriteLine("No se encontro ningun registro de vehiculos.");
+            }
+        }
+        //Opcion 5
+        public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){
+            if( lista.Count>0 ){
+                foreach( Vehiculo v in lista ){
+                    v.mostrar();
+                    Console.WriteLine("************");
+                }
+            }
+            else{
+                Console.WriteLine("No se encontro ningun vehiculo registrado.");
             }
         }
     }

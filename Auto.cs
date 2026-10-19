@@ -31,5 +31,8 @@ namespace trabajoPracticoPOO{
                 return precioPorDia*0.1;
             }
         }
+        public override string obtenerCsv(){
+            return string.Format( "Auto,{0},{1},{2}", base.obtenerCsv(),cantidadDePuertas,cajaAutomatica );
+        }
     }
 }
