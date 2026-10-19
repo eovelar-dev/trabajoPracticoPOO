@@ -17,23 +17,48 @@ namespace trabajoPracticoPOO{
                 }
                 catch( OpcionInvalidaException ex ){
                     Console.WriteLine( ex.Message );
-                    Console.Write("Presione cualquier tecla para continuar...");
-                    Console.ReadKey(true);
-                    Console.Clear();
+                    teclaParaContinuar();
                 }
                 catch( FormatException ex ){
                     Console.WriteLine( ex.Message );
-                    Console.Write("Presione cualquier tecla para continuar...");
-                    Console.ReadKey(true);
-                    Console.Clear();
+                    teclaParaContinuar();
                 }
+                catch( OverflowException ex ){
+                    Console.WriteLine( ex.Message );
+                    teclaParaContinuar();
+                }
+                switch( opcion ){
+                case 1: break;
+                case 2: break;
+                case 3: break;
+                case 4: break;
+                case 5: mostrarListadoDeVehiculos( listaDeVehiculos );
+                        teclaParaContinuar();
+                        break;
+                case 6: break;
+                default: break;
+            }
 
             }while( opcion != 6 );
-            Console.Write("\nPresione cualquier tecla para finalizar...");
+            teclaParaContinuar();
+        }
+        //Funciones
+        public static void teclaParaContinuar(){
+            Console.WriteLine("Presione cualquier tecla para continuar...");
             Console.ReadKey(true);
             Console.Clear();
         }
-        //Funciones
+        public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){
+            if( lista.Count>0 ){
+                foreach( Vehiculo v in lista ){
+                    v.mostrar();
+                    Console.WriteLine("************");
+                }
+            }
+            else{
+                Console.WriteLine("No se encontro ningun vehiculo registrado.");
+            }
+        }
         public static void validarOpcion( int opcion, int minimo, int maximo ){
             if( opcion<minimo || opcion>maximo ){
                 throw new OpcionInvalidaException() ;
