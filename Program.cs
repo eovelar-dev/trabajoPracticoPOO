@@ -8,16 +8,34 @@ namespace trabajoPracticoPOO{
             List<Vehiculo> listaDeVehiculos = new List<Vehiculo>();
             leerAutos( "listaDeVehiculos.csv", listaDeVehiculos );
 
-            foreach( Vehiculo v in listaDeVehiculos ){
-                v.mostrar();
-                Console.WriteLine("********");
-            }
+            menuPrincipal();
 
             Console.Write("\nPresione cualquier tecla para continuar...");
             Console.ReadKey(true);
             Console.Clear();
         }
         //Funciones
+        public static void menuPrincipal(){
+            Console.WriteLine("MENU PRINCIPAL\n[1]Agregar un vehiculo a la agencia\n[2]Eliminar un vehiculo utilizando la patente\n[3]Registrar un cliente\n[4]Realizar un alquiler\n[5]Mostrar listado completo de vehiculos\n[6]Salir");
+            int opcion;
+            try{
+                Console.Write("Ingrese una opcion: ");
+                opcion = int.Parse( Console.ReadLine() );
+                validarOpcion( opcion, 1, 6 );
+            }
+            catch( OpcionInvalidaException ex ){
+                Console.WriteLine( ex.Message );
+                Console.Write("Presione cualquier tecla para continuar...");
+                Console.ReadKey(true);
+                Console.Clear();
+                menuPrincipal();
+            }
+        }
+        public static void validarOpcion( int opcion, int minimo, int maximo ){
+            if( opcion<minimo || opcion>maximo ){
+                throw new OpcionInvalidaException() ;
+            }
+        }
         public static void leerAutos(string path, List<Vehiculo> lista){
             if( File.Exists(path) ){
                 using( StreamReader sr = new StreamReader(path) ){
