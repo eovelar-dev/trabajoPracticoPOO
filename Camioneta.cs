@@ -14,10 +14,11 @@ namespace trabajoPracticoPOO{
 
         //Metodos
         public override void mostrar(){
-            Console.WriteLine( "Patente: {0}\nMarca: {1}\nModelo: {2}\nAño: {3}\nPrecio por dia: ${4}\nDisponibilidad: {5}\nCapacidad de Carga: {6}Kg\n4x4: {7}\nPosibilidad de seguro adicional: {8}", patente, marca, modelo, año, precioPorDia.ToString("N2"), estaDisponible, capacidadDeCarga.ToString("N0"), es4x4, seguroAdicional );
+            base.mostrar();
             if( seguroAdicional ){
                 Console.WriteLine("Precio por dia del seguro: ${0}", precioSeguro.ToString("N2"));
             }
+            Console.WriteLine("Capacidad de Carga: {0}Kg\n4x4: {1}", capacidadDeCarga.ToString("N0"), es4x4);
             if( es4x4 ){
                 Console.WriteLine("Precio por dia con recargo por 4x4: ${0}", calcularCostoPorDia().ToString("N2") );
             }

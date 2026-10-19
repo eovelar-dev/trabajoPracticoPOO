@@ -9,7 +9,8 @@ namespace trabajoPracticoPOO{
         }
         //Metodos
         public override void mostrar(){
-            Console.WriteLine( "Patente: {0}\nMarca: {1}\nModelo: {2}\nAño: {3}\nPrecio por dia: ${4}\nDisponibilidad: {5}\nCilindrada: {6}\nPosibilidad de seguro adicional: {7}", patente, marca, modelo, año, precioPorDia.ToString("N2"), estaDisponible, cilindrada,seguroAdicional );
+            base.mostrar();
+            Console.WriteLine( "Cilindrada: {0}",cilindrada );
             if( cilindrada < 250 ){
                 Console.WriteLine("Precio por dia con descuento: ${0}", calcularCostoPorDia().ToString("N2") );
             }

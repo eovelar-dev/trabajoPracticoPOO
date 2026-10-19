@@ -29,7 +29,9 @@ namespace trabajoPracticoPOO{
         }
 
         //Metodos
-        public abstract void mostrar();
-        public abstract double calcularCostoPorDia();
+        public virtual void mostrar(){
+             Console.WriteLine( "Patente: {0}\nMarca: {1}\nModelo: {2}\nAño: {3}\nPrecio por dia: ${4}\nDisponibilidad: {5}\nPosibilidad de seguro adicional: {6}", patente, marca, modelo, año, precioPorDia.ToString("N2"), estaDisponible, seguroAdicional );
+        }
+        public abstract double calcularCostoPorDia(); 
     }
 }
