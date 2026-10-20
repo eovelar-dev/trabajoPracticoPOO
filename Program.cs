@@ -8,7 +8,6 @@ namespace trabajoPracticoPOO{
             List<Vehiculo> listaDeVehiculos = new List<Vehiculo>();
             leerAutos( "listaDeVehiculos.csv", listaDeVehiculos );
             int opcion = 0;
-            Console.WriteLine(listaDeVehiculos[0].obtenerCsv());
             do{
                 Console.WriteLine("MENU PRINCIPAL\n[1]Agregar un vehiculo a la agencia\n[2]Eliminar un vehiculo utilizando la patente\n[3]Registrar un cliente\n[4]Realizar un alquiler\n[5]Mostrar listado completo de vehiculos\n[6]Salir");
                 try{
@@ -29,7 +28,9 @@ namespace trabajoPracticoPOO{
                     teclaParaContinuar();
                 }
                 switch( opcion ){
-                case 1: break;
+                case 1: agregarUnVehiculo( listaDeVehiculos, "./listaDeVehiculos.csv" );
+                teclaParaContinuar();
+                break;
                 case 2: break;
                 case 3: break;
                 case 4: break;
@@ -108,6 +109,63 @@ namespace trabajoPracticoPOO{
             else{
                 Console.WriteLine("No se encontro ningun registro de vehiculos.");
             }
+        }
+        //Opcion 1
+        public static void agregarUnVehiculo( List<Vehiculo> lista, string path ){
+            int opcion = 0;
+            do{
+                try{
+                    Console.WriteLine("Seleccione el tipo de vehiculo que desea agregar: \n[1]Auto\n[2]Moto\n[3]Camioneta\n[4]Salir");
+                    opcion = int.Parse( Console.ReadLine() );
+                    validarOpcion( opcion, 1, 4 );
+                }
+                catch( OpcionInvalidaException ex ){
+                    Console.WriteLine( ex.Message );
+                    teclaParaContinuar();
+                }
+                catch( FormatException ex ){
+                    Console.WriteLine( ex.Message );
+                    teclaParaContinuar();
+                }
+                catch( OverflowException ex ){
+                    Console.WriteLine( ex.Message );
+                    teclaParaContinuar();
+                }
+                List<string> partes= new List<string>();
+                Console.WriteLine("A continuacion ingrese los datos del vehiculo:");
+                Console.Write( "Patente: " );
+                partes[0] = string.Parse( Console.ReadLine() );
+                Console.Write( "Marca: " );
+                partes[1] = Console.ReadLine();
+                Console.Write( "Modelo: " );
+                partes[2] = Console.ReadLine();
+                Console.Write( "Año: " );
+                partes[3] = Console.ReadLine();
+                Console.Write( "precioPorDia: " );
+                partes[4] = Console.ReadLine();
+                Console.Write( "estaDisponible: " );
+                partes[5] = Console.ReadLine();
+                switch( opcion ){
+                    case 1:
+                    Console.Write("Cantidad de puertas:");
+                    partes[6] = Console.ReadLine();
+                    Console.Write("Caja automatica (True/False):");
+                    partes[7] = Console.ReadLine();
+                    break;
+                    case 2: 
+                    Console.Write("Cilindrada:");
+                    partes[6] = Console.ReadLine();
+                    break;
+                    case 3: 
+                    Console.Write("Capacidad de carga:");
+                    partes[6] = Console.ReadLine();
+                    Console.Write("4x4 (True/False):");
+                    partes[7] = Console.ReadLine();
+                    break;
+                    default: break;
+                }
+                
+            }while( opcion != 4 );
         }
         //Opcion 5
         public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){
