@@ -20,21 +20,21 @@ namespace trabajoPracticoPOO{
             this.precioPorDia = precioPorDia;
             this.estaDisponible = estaDisponible;
         }
-        public Vehiculo( string patente, string marca, string modelo, int año){
-            this.patente = patente;
-            this.marca = marca;
-            this.modelo = modelo;
-            this.año = año;
-            this.estaDisponible = false;
+        public Vehiculo(){
         }
-
+        //Propiedades Get y Set
+        public string PATENTE{
+            get{
+                return patente;
+            }
+        }
         //Metodos
         public virtual void mostrar(){
              Console.WriteLine( "Patente: {0}\nMarca: {1}\nModelo: {2}\nAño: {3}\nPrecio por dia: ${4}\nDisponibilidad: {5}\nPosibilidad de seguro adicional: {6}", patente, marca, modelo, año, precioPorDia.ToString("N2"), estaDisponible, seguroAdicional );
         }
         public abstract double calcularCostoPorDia(); 
         public virtual string obtenerCsv(){
-            return string.Format( "{0},{1},{2},{3},{4},{5},{6}", patente, marca, modelo, año, precioPorDia, estaDisponible, seguroAdicional );
+            return string.Format( "{0},{1},{2},{3},{4},{5}", patente, marca, modelo, año, precioPorDia, estaDisponible );
         }
     }
 }

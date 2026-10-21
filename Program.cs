@@ -110,6 +110,14 @@ namespace trabajoPracticoPOO{
                 Console.WriteLine("No se encontro ningun registro de vehiculos.");
             }
         }
+        public static bool encontrarPatente( List<Vehiculo> lista, string patente ){
+            foreach( Vehiculo v in lista ){
+                if( v.PATENTE == patente.ToUpper() ){
+                    return true;
+                }
+            }
+            return false;
+        }
         //Opcion 1
         public static void agregarUnVehiculo( List<Vehiculo> lista, string path ){
             int opcion = 0;
@@ -132,39 +140,70 @@ namespace trabajoPracticoPOO{
                     teclaParaContinuar();
                 }
                 List<string> partes= new List<string>();
-                Console.WriteLine("A continuacion ingrese los datos del vehiculo:");
-                Console.Write( "Patente: " );
-                partes[0] = string.Parse( Console.ReadLine() );
-                Console.Write( "Marca: " );
-                partes[1] = Console.ReadLine();
-                Console.Write( "Modelo: " );
-                partes[2] = Console.ReadLine();
-                Console.Write( "Año: " );
-                partes[3] = Console.ReadLine();
-                Console.Write( "precioPorDia: " );
-                partes[4] = Console.ReadLine();
-                Console.Write( "estaDisponible: " );
-                partes[5] = Console.ReadLine();
+                if( opcion != 4 ){
+                    Console.WriteLine("A continuacion ingrese los datos del vehiculo:");
+                    Console.Write( "Patente: " );
+                    partes.Add( Console.ReadLine().ToUpper() );
+                    Console.Write( "Marca: " );
+                    partes.Add( Console.ReadLine() );
+                    Console.Write( "Modelo: " );
+                    partes.Add( Console.ReadLine() );
+                    Console.Write( "Año: " );
+                    partes.Add( Console.ReadLine() );
+                    Console.Write( "precioPorDia: " );
+                    partes.Add( Console.ReadLine() );
+                    Console.Write( "estaDisponible: " );
+                    partes.Add( Console.ReadLine() );
+                }
                 switch( opcion ){
                     case 1:
                     Console.Write("Cantidad de puertas:");
-                    partes[6] = Console.ReadLine();
+                    partes.Add( Console.ReadLine() );
                     Console.Write("Caja automatica (True/False):");
-                    partes[7] = Console.ReadLine();
+                    partes.Add( Console.ReadLine() );
+                    if( !encontrarPatente( lista, partes[0] ) ){
+                        lista.Add( new Auto( partes[0], partes[1], partes[2], int.Parse(partes[3]), double.Parse(partes[4]), bool.Parse(partes[5]), int.Parse(partes[6]),bool.Parse(partes[7]) ) );
+                        using( StreamWriter sw = new StreamWriter( path, true ) ){
+                            sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
+                        }
+
+                    }
+                    else{
+                        Console.WriteLine("No es posible agregar el vehiculo a la lista debido a que ya se encuentra otro vehiculo registrado con esa patente.");
+                    }
                     break;
                     case 2: 
                     Console.Write("Cilindrada:");
-                    partes[6] = Console.ReadLine();
+                    partes.Add( Console.ReadLine() );
+                    if( !encontrarPatente( lista, partes[0] ) ){
+                        lista.Add( new Moto( partes[0], partes[1], partes[2], int.Parse(partes[3]), double.Parse(partes[4]), bool.Parse(partes[5]), int.Parse(partes[6]) ) );
+                        using( StreamWriter sw = new StreamWriter( path, true ) ){
+                            sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
+                        }
+
+                    }
+                    else{
+                        Console.WriteLine("No es posible agregar el vehiculo a la lista debido a que ya se encuentra otro vehiculo registrado con esa patente.");
+                    }
                     break;
                     case 3: 
                     Console.Write("Capacidad de carga:");
-                    partes[6] = Console.ReadLine();
+                    partes.Add( Console.ReadLine() );
                     Console.Write("4x4 (True/False):");
-                    partes[7] = Console.ReadLine();
+                    partes.Add( Console.ReadLine() );
+                    if( !encontrarPatente( lista, partes[0] ) ){
+                        lista.Add( new Camioneta( partes[0], partes[1], partes[2], int.Parse(partes[3]), double.Parse(partes[4]), bool.Parse(partes[5]), int.Parse(partes[6]),bool.Parse(partes[7]) ) );
+                        using( StreamWriter sw = new StreamWriter( path, true ) ){
+                            sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
+                        }
+
+                    }
+                    else{
+                        Console.WriteLine("No es posible agregar el vehiculo a la lista debido a que ya se encuentra otro vehiculo registrado con esa patente.");
+                    }
                     break;
                     default: break;
                 }
-                
             }while( opcion != 4 );
         }
         //Opcion 5

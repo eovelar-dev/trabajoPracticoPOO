@@ -11,6 +11,8 @@ namespace trabajoPracticoPOO{
             this.es4x4 = es4x4;
             seguroAdicional = true;
         }
+        public Camioneta(){
+        }
 
         //Metodos
         public override void mostrar(){
@@ -30,6 +32,9 @@ namespace trabajoPracticoPOO{
             else{
                 return precioPorDia;
             }
+        }
+        public override string obtenerCsv(){
+            return string.Format( "Camioneta,{0},{1},{2}", base.obtenerCsv(),capacidadDeCarga,es4x4 );
         }
     }
 }

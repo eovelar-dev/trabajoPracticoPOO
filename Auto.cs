@@ -5,13 +5,14 @@ namespace trabajoPracticoPOO{
         private bool cajaAutomatica;
         private double precioSeguro = 8000;
 
-        //Constructor
+        //Constructores
         public Auto( string patente, string marca, string modelo, int año, double precioPorDia, bool estaDisponible, int cantidadDePuertas, bool cajaAutomatica ) : base( patente, marca, modelo, año, precioPorDia, estaDisponible ) {
             this.cantidadDePuertas = cantidadDePuertas;
             this.cajaAutomatica = cajaAutomatica;
             seguroAdicional = true;
         }
-
+        public Auto(){
+        }
         //Metodos
         public override void mostrar(){
             base.mostrar();
