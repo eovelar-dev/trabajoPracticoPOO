@@ -5,8 +5,9 @@ namespace trabajoPracticoPOO{
     class Program{
         public static void Main( string[] Args ){
         
+            string pathVehiculos = "./listaDeVehiculos.csv";
             List<Vehiculo> listaDeVehiculos = new List<Vehiculo>();
-            leerAutos( "listaDeVehiculos.csv", listaDeVehiculos );
+            leerAutos( pathVehiculos, listaDeVehiculos );
             int opcion = 0;
             do{
                 Console.WriteLine("MENU PRINCIPAL\n[1]Agregar un vehiculo a la agencia\n[2]Eliminar un vehiculo utilizando la patente\n[3]Registrar un cliente\n[4]Realizar un alquiler\n[5]Mostrar listado completo de vehiculos\n[6]Salir");
@@ -28,10 +29,21 @@ namespace trabajoPracticoPOO{
                     teclaParaContinuar();
                 }
                 switch( opcion ){
-                case 1: agregarUnVehiculo( listaDeVehiculos, "./listaDeVehiculos.csv" );
+                case 1: agregarUnVehiculo( listaDeVehiculos, pathVehiculos );
                 teclaParaContinuar();
                 break;
-                case 2: break;
+                case 2:
+                try{
+                    Console.Write("Ingrese la patente del vehiculo que desea eliminar:");
+                    string patente = Console.ReadLine().ToUpper();
+                    eliminarUnVehiculo( listaDeVehiculos, patente, pathVehiculos );
+                }
+                catch( FormatException ex ){
+                    Console.WriteLine( ex.Message );
+                    teclaParaContinuar();
+                }
+                teclaParaContinuar();
+                break;
                 case 3: break;
                 case 4: break;
                 case 5: mostrarListadoDeVehiculos( listaDeVehiculos );
@@ -113,6 +125,15 @@ namespace trabajoPracticoPOO{
         public static bool encontrarPatente( List<Vehiculo> lista, string patente ){
             foreach( Vehiculo v in lista ){
                 if( v.PATENTE == patente.ToUpper() ){
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static bool encontrarPatente( List<Vehiculo> lista, string patente, ref int indice ){
+            foreach( Vehiculo v in lista ){
+                if( v.PATENTE == patente.ToUpper() ){
+                    indice = lista.IndexOf(v);
                     return true;
                 }
             }
@@ -205,6 +226,22 @@ namespace trabajoPracticoPOO{
                     default: break;
                 }
             }while( opcion != 4 );
+        }
+        //Opcion 2
+        public static void eliminarUnVehiculo( List<Vehiculo> lista,string patente, string path ){
+            int indice = -1;
+            if( encontrarPatente( lista, patente, ref indice ) ){
+                lista.RemoveAt(indice);
+                using( StreamWriter sw = new StreamWriter( path ) ){
+                    foreach( Vehiculo v in lista ){
+                        sw.WriteLine( v.obtenerCsv() );
+                    }
+                }
+                Console.WriteLine("Vehiculo eliminado correctamente.");
+            }
+            else{
+                Console.WriteLine( "Vehiculo no encontrado." );
+            }
         }
         //Opcion 5
         public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){
