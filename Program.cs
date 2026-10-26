@@ -206,6 +206,10 @@ namespace trabajoPracticoPOO{
             }
             return -1;
         }
+
+        /**************\
+        *MENU PRINCIPAL*
+        \**************/
         //Opcion 1
         public static void agregarUnVehiculo( List<Vehiculo> lista, string path ){
             int opcion = 0;
@@ -228,7 +232,7 @@ namespace trabajoPracticoPOO{
                     teclaParaContinuar();
                 }
                 List<string> partes= new List<string>();
-                if( opcion != 4 ){
+                if( opcion < 4 && opcion >0 ){
                     Console.WriteLine("A continuacion ingrese los datos del vehiculo:");
                     Console.Write( "Patente: " );
                     partes.Add( Console.ReadLine().ToUpper() );
@@ -297,7 +301,8 @@ namespace trabajoPracticoPOO{
         //Opcion 2
         public static void eliminarUnVehiculo( List<Vehiculo> lista,string patente, string path ){
             int indice = encontrarPatente( lista, patente );
-            if( indice >= 0 ){
+            try{
+                if( indice >= 0 ){
                 lista.RemoveAt(indice);
                 using( StreamWriter sw = new StreamWriter( path ) ){
                     foreach( Vehiculo v in lista ){
@@ -305,10 +310,14 @@ namespace trabajoPracticoPOO{
                     }
                 }
                 Console.WriteLine("Vehiculo eliminado correctamente.");
+                }
+                else{
+                    throw new VehiculoNoEncontradoException();
+                }  
             }
-            else{
-                Console.WriteLine( "Vehiculo no encontrado." );
-            }
+            catch( VehiculoNoEncontradoException ex ){
+                    Console.WriteLine( ex.Message );
+                }
         }
         //Opcion 3
         public static void registrarCliente( List<Cliente> lista, string path ){
@@ -326,7 +335,7 @@ namespace trabajoPracticoPOO{
                 tel = int.Parse(Console.ReadLine());
                 if( encontrarCliente( lista, dni )<0 ){
                     lista.Add( new Cliente( nom,ap,dni,tel ) );
-                    using( StreamWriter sw = new StreamWriter( path ) ){
+                    using( StreamWriter sw = new StreamWriter( path,true ) ){
                         sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
                     }
                 }
@@ -368,6 +377,9 @@ namespace trabajoPracticoPOO{
                 Console.Write(" [Duracion en dias]: ");
                 dias = int.Parse( Console.ReadLine() );
                 alquileres.Add( new Alquiler( clientes[indiceCliente], vehiculos[indiceVehiculo],dias ) );
+                using( StreamWriter sw = new StreamWriter( path,true ) ){
+                    sw.WriteLine( alquileres[alquileres.Count-1].obtenerCsv() );
+                }
                 Console.WriteLine("Alquiler registrado correctamente.");
             }
             catch( ClienteNoEncontradoException ex ){
