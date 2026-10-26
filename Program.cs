@@ -16,7 +16,8 @@ namespace trabajoPracticoPOO{
             //PreCarga de Listas
             leerAutos( pathVehiculos, listaDeVehiculos );
             leerClientes( pathClientes, listaDeClientes );
-            leerAlquileres( pathAlquileres, listaDeAlquileres, listaDeClientes, listaDeVehiculos );
+            leerAlquileres( pathAlquileres, listaDeAlquileres, listaDeClientes, listaDeVehiculos);
+            
             int opcion = 0;
             do{
                 Console.WriteLine("MENU PRINCIPAL\n[1]Agregar un vehiculo a la agencia\n[2]Eliminar un vehiculo utilizando la patente\n[3]Registrar un cliente\n[4]Realizar un alquiler\n[5]Mostrar listado completo de vehiculos\n[6]Mostrar listado completo de clientes\n[7]Mostrar historial de alquileres realizados\n[8]Mostrar vehiculos que permiten seguro adicional\n[9]Salir");
@@ -53,7 +54,9 @@ namespace trabajoPracticoPOO{
                 }
                 teclaParaContinuar();
                 break;
-                case 3: break;
+                case 3: registrarCliente( listaDeClientes, pathClientes );
+                teclaParaContinuar();
+                break;
                 case 4: break;
                 case 5: mostrarListadoDeVehiculos( listaDeVehiculos );
                 teclaParaContinuar();
@@ -158,8 +161,24 @@ namespace trabajoPracticoPOO{
                 using( StreamReader sr = new StreamReader( path ) ){
                     string linea;
                     while( ( linea = sr.ReadLine() ) != null ){
-                        string[] partes = linea.Split(",");
-                        lista.Add( new Alquiler( clientes[encontrarCliente( clientes, int.Parse(partes[0]) )], vehiculos[encontrarPatente( vehiculos, partes[1] )], int.Parse( partes[2] ), double.Parse( partes[3] ) ) );
+                        try{
+                            string[] partes = linea.Split(",");
+                            int indiceCliente = encontrarCliente(clientes, int.Parse( partes[0] ) );
+                            int indiceVehiculo = encontrarPatente( vehiculos, partes[1] ) ;
+                            if( indiceCliente < 0 ){
+                                throw new ClienteNoEncontradoException(string.Format( "[Lista de Alquileres] Cliente {0} no encontrado.", int.Parse(partes[0]).ToString("N0") ));
+                            }
+                            if( indiceVehiculo < 0 ){
+                                throw new VehiculoNoEncontradoException( string.Format("[Lista de Alquileres] Vehiculo {0} no encontrado", partes[1]) );
+                            }
+                            lista.Add( new Alquiler( clientes[indiceCliente], vehiculos[indiceVehiculo], int.Parse( partes[2] ), double.Parse( partes[3] ) ) );
+                        }
+                        catch( ClienteNoEncontradoException ex ){
+                            Console.WriteLine(ex.Message);
+                        }
+                        catch( VehiculoNoEncontradoException ex ){
+                            Console.WriteLine(ex.Message);
+                        }
                     }
                 }
             }
@@ -290,7 +309,38 @@ namespace trabajoPracticoPOO{
             }
         }
         //Opcion 3
-        //public static void registrarCliente();
+        public static void registrarCliente( List<Cliente> lista, string path ){
+            string nom, ap;
+            int dni, tel;
+            try{
+                Console.WriteLine( "Ingrese los datos del cliente. " );
+                Console.Write("Nombre: ");
+                nom = Console.ReadLine();
+                Console.Write("Apellido: ");
+                ap = Console.ReadLine();
+                Console.Write( "DNI:" );
+                dni = int.Parse(Console.ReadLine());
+                Console.Write("Telefono: ");
+                tel = int.Parse(Console.ReadLine());
+                if( encontrarCliente( lista, dni )<0 ){
+                    lista.Add( new Cliente( nom,ap,dni,tel ) );
+                    using( StreamWriter sw = new StreamWriter( path ) ){
+                        sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
+                    }
+                }
+                else{
+                    Console.WriteLine("El DNI ingresado ya se encuentra registrado.");
+                }
+            }
+            catch( FormatException ex ){
+                Console.WriteLine( ex.Message );
+                teclaParaContinuar();
+            }
+            catch( OverflowException ex ){
+                Console.WriteLine( ex.Message );
+                teclaParaContinuar();
+            }
+        }
         //Opcion 5
         public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){
             if( lista.Count>0 ){

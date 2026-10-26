@@ -20,6 +20,9 @@ namespace trabajoPracticoPOO{
             this.apellido = apellido;
             this.dni = dni;
         }
+        public Cliente( int dni ){
+            this.dni = dni;
+        }
 
         //Propiedad get
         public int DNI{
