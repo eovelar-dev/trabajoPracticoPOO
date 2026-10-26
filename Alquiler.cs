@@ -23,5 +23,8 @@ namespace trabajoPracticoPOO{
         public string obtenerCsv(){
             return string.Format( "{0},{1},{2},{3}",cliente.DNI,vehiculo.PATENTE,dias,costoTotal );
         }
+        public void mostrar(){
+            Console.WriteLine("DNI del cliente: {0}\nPatente del Vehículo: {1}\nDias: {2}\nCosto Total: ${3}", cliente.DNI, vehiculo.PATENTE, dias, costoTotal.ToString("N2"));
+        }
     }
 }

@@ -61,8 +61,12 @@ namespace trabajoPracticoPOO{
                 case 6: mostrarListadoDeClientes( listaDeClientes ); 
                 teclaParaContinuar();
                 break;
-                case 7:
-                case 8:
+                case 7: mostrarListadoDeAlquileres( listaDeAlquileres );
+                teclaParaContinuar();
+                break;
+                case 8: mostrarVehiculosAsegurables( listaDeVehiculos );
+                teclaParaContinuar();
+                break;
                 default: break;
             }
 
@@ -309,6 +313,27 @@ namespace trabajoPracticoPOO{
             }
             else{
                 Console.WriteLine("No se encontro ningun cliente registrado.");
+            }
+        }
+        //Opcion 7
+        public static void mostrarListadoDeAlquileres( List<Alquiler> lista ){
+            if( lista.Count>0 ){
+                foreach( Alquiler a in lista ){
+                a.mostrar();
+                Console.WriteLine("**********");
+                }
+            }
+            else{
+                Console.WriteLine("No se encontro ningun alquiler registrado.");
+            }
+        }
+        //Opcion 8
+        public static void mostrarVehiculosAsegurables( List<Vehiculo> lista ){
+            foreach( Vehiculo v in lista ){
+                if( v.SEGURO ){
+                    v.mostrarInfoSeguro();
+                    Console.WriteLine("*********");
+                }
             }
         }
     }

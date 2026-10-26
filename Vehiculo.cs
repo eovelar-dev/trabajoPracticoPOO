@@ -28,6 +28,11 @@ namespace trabajoPracticoPOO{
                 return patente;
             }
         }
+        public bool SEGURO{
+            get{
+                return seguroAdicional;
+            }
+        }
         //Metodos
         public virtual void mostrar(){
              Console.WriteLine( "Patente: {0}\nMarca: {1}\nModelo: {2}\nAño: {3}\nPrecio por dia: ${4}\nDisponibilidad: {5}\nPosibilidad de seguro adicional: {6}", patente, marca, modelo, año, precioPorDia.ToString("N2"), estaDisponible, seguroAdicional );
@@ -35,6 +40,9 @@ namespace trabajoPracticoPOO{
         public abstract double calcularCostoPorDia(); 
         public virtual string obtenerCsv(){
             return string.Format( "{0},{1},{2},{3},{4},{5}", patente, marca, modelo, año, precioPorDia, estaDisponible );
+        }
+        public virtual void mostrarInfoSeguro(){
+            Console.WriteLine( "[{0}]{1} {2} {3}", patente, marca, modelo, año );
         }
     }
 }

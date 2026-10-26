@@ -28,5 +28,9 @@ namespace trabajoPracticoPOO{
         public override string obtenerCsv(){
             return string.Format( "Moto,{0},{1}", base.obtenerCsv(),cilindrada );
         }
+        public override void mostrarInfoSeguro(){
+            base.mostrarInfoSeguro();
+            Console.WriteLine( "Vehiculo no asegurable." );
+        }
     }
 }

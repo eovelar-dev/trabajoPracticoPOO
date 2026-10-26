@@ -35,5 +35,9 @@ namespace trabajoPracticoPOO{
         public override string obtenerCsv(){
             return string.Format( "Auto,{0},{1},{2}", base.obtenerCsv(),cantidadDePuertas,cajaAutomatica );
         }
+        public override void mostrarInfoSeguro(){
+            base.mostrarInfoSeguro();
+            Console.WriteLine( "Precio del seguro por dia: ${0}", precioSeguro.ToString("N2") );
+        }
     }
 }
