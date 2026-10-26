@@ -21,5 +21,19 @@ namespace trabajoPracticoPOO{
             this.dni = dni;
         }
 
+        //Propiedad get
+        public int DNI{
+            get{
+                return dni;
+            }
+        }
+
+        //Metodos
+        public void mostrar(){
+            Console.WriteLine( "Nombre: {0}\nApellido: {1}\nDNI: {2}\nTelefono: {3}",nombre,apellido, dni.ToString("N0"), telefono );
+        }
+        public string obtenerCsv(){
+            return string.Format("{0},{1},{2},{3}",nombre,apellido,dni,telefono);
+        }
     }
 }

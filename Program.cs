@@ -5,16 +5,25 @@ namespace trabajoPracticoPOO{
     class Program{
         public static void Main( string[] Args ){
         
+            //Ubicacion de los archivos
             string pathVehiculos = "./listaDeVehiculos.csv";
+            string pathClientes = "./listaDeClientes.csv";
+            string pathAlquileres = "./listaDeAlquileres.csv";
+            //Declaracion de listas
             List<Vehiculo> listaDeVehiculos = new List<Vehiculo>();
+            List<Cliente> listaDeClientes = new List<Cliente>();
+            List<Alquiler> listaDeAlquileres = new List<Alquiler>();
+            //PreCarga de Listas
             leerAutos( pathVehiculos, listaDeVehiculos );
+            leerClientes( pathClientes, listaDeClientes );
+            leerAlquileres( pathAlquileres, listaDeAlquileres, listaDeClientes, listaDeVehiculos );
             int opcion = 0;
             do{
-                Console.WriteLine("MENU PRINCIPAL\n[1]Agregar un vehiculo a la agencia\n[2]Eliminar un vehiculo utilizando la patente\n[3]Registrar un cliente\n[4]Realizar un alquiler\n[5]Mostrar listado completo de vehiculos\n[6]Salir");
+                Console.WriteLine("MENU PRINCIPAL\n[1]Agregar un vehiculo a la agencia\n[2]Eliminar un vehiculo utilizando la patente\n[3]Registrar un cliente\n[4]Realizar un alquiler\n[5]Mostrar listado completo de vehiculos\n[6]Mostrar listado completo de clientes\n[7]Mostrar historial de alquileres realizados\n[8]Mostrar vehiculos que permiten seguro adicional\n[9]Salir");
                 try{
                     Console.Write("Ingrese una opcion: ");
                     opcion = int.Parse( Console.ReadLine() );
-                    validarOpcion( opcion, 1, 6 );
+                    validarOpcion( opcion, 1, 9 );
                 }
                 catch( OpcionInvalidaException ex ){
                     Console.WriteLine( ex.Message );
@@ -49,11 +58,15 @@ namespace trabajoPracticoPOO{
                 case 5: mostrarListadoDeVehiculos( listaDeVehiculos );
                 teclaParaContinuar();
                 break;
-                case 6: break;
+                case 6: mostrarListadoDeClientes( listaDeClientes ); 
+                teclaParaContinuar();
+                break;
+                case 7:
+                case 8:
                 default: break;
             }
 
-            }while( opcion != 6 );
+            }while( opcion != 9 );
             teclaParaContinuar();
         }
         //Funciones
@@ -122,22 +135,51 @@ namespace trabajoPracticoPOO{
                 Console.WriteLine("No se encontro ningun registro de vehiculos.");
             }
         }
-        public static bool encontrarPatente( List<Vehiculo> lista, string patente ){
-            foreach( Vehiculo v in lista ){
-                if( v.PATENTE == patente.ToUpper() ){
-                    return true;
+        public static void leerClientes( string path, List<Cliente> lista ){
+            if( File.Exists( path ) ){
+                using( StreamReader sr = new StreamReader( path ) ){
+                    string linea;
+                    while( ( linea = sr.ReadLine() ) != null ){
+                        string[] partes = linea.Split(",");
+                        lista.Add( new Cliente( partes[0], partes[1], int.Parse( partes[2] ), int.Parse( partes[3] ) ) );
+                    }
                 }
             }
-            return false;
+            else{
+                Console.WriteLine( "No se encontro ningun registro de clientes." );
+            }
         }
-        public static bool encontrarPatente( List<Vehiculo> lista, string patente, ref int indice ){
-            foreach( Vehiculo v in lista ){
-                if( v.PATENTE == patente.ToUpper() ){
-                    indice = lista.IndexOf(v);
-                    return true;
+        public static void leerAlquileres( string path, List<Alquiler> lista, List<Cliente> clientes, List<Vehiculo> vehiculos ){
+            if( File.Exists( path ) ){
+                using( StreamReader sr = new StreamReader( path ) ){
+                    string linea;
+                    while( ( linea = sr.ReadLine() ) != null ){
+                        string[] partes = linea.Split(",");
+                        lista.Add( new Alquiler( clientes[encontrarCliente( clientes, int.Parse(partes[0]) )], vehiculos[encontrarPatente( vehiculos, partes[1] )], int.Parse( partes[2] ), double.Parse( partes[3] ) ) );
+                    }
                 }
             }
-            return false;
+            else{
+                Console.WriteLine( "No se encontro ningun registro de clientes." );
+            }
+        }
+        public static int encontrarPatente( List<Vehiculo> lista, string patente ){
+            int pos = 0;
+            foreach( Vehiculo v in lista ){
+                if( v.PATENTE.ToUpper() == patente.ToUpper() ){
+                    return pos; 
+                }
+            }
+            return -1;
+        }
+        public static int encontrarCliente( List<Cliente> lista, int dni ){
+            int pos = 0;
+            foreach( Cliente c in lista ){
+                if( c.DNI == dni ){
+                    return pos;
+                }
+            }
+            return -1;
         }
         //Opcion 1
         public static void agregarUnVehiculo( List<Vehiculo> lista, string path ){
@@ -182,7 +224,7 @@ namespace trabajoPracticoPOO{
                     partes.Add( Console.ReadLine() );
                     Console.Write("Caja automatica (True/False):");
                     partes.Add( Console.ReadLine() );
-                    if( !encontrarPatente( lista, partes[0] ) ){
+                    if( encontrarPatente( lista, partes[0] ) < 0 ){
                         lista.Add( new Auto( partes[0], partes[1], partes[2], int.Parse(partes[3]), double.Parse(partes[4]), bool.Parse(partes[5]), int.Parse(partes[6]),bool.Parse(partes[7]) ) );
                         using( StreamWriter sw = new StreamWriter( path, true ) ){
                             sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
@@ -196,7 +238,7 @@ namespace trabajoPracticoPOO{
                     case 2: 
                     Console.Write("Cilindrada:");
                     partes.Add( Console.ReadLine() );
-                    if( !encontrarPatente( lista, partes[0] ) ){
+                    if( encontrarPatente( lista, partes[0] ) < 0 ){
                         lista.Add( new Moto( partes[0], partes[1], partes[2], int.Parse(partes[3]), double.Parse(partes[4]), bool.Parse(partes[5]), int.Parse(partes[6]) ) );
                         using( StreamWriter sw = new StreamWriter( path, true ) ){
                             sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
@@ -212,7 +254,7 @@ namespace trabajoPracticoPOO{
                     partes.Add( Console.ReadLine() );
                     Console.Write("4x4 (True/False):");
                     partes.Add( Console.ReadLine() );
-                    if( !encontrarPatente( lista, partes[0] ) ){
+                    if( encontrarPatente( lista, partes[0] ) < 0 ){
                         lista.Add( new Camioneta( partes[0], partes[1], partes[2], int.Parse(partes[3]), double.Parse(partes[4]), bool.Parse(partes[5]), int.Parse(partes[6]),bool.Parse(partes[7]) ) );
                         using( StreamWriter sw = new StreamWriter( path, true ) ){
                             sw.WriteLine( lista[lista.Count-1].obtenerCsv() );
@@ -229,8 +271,8 @@ namespace trabajoPracticoPOO{
         }
         //Opcion 2
         public static void eliminarUnVehiculo( List<Vehiculo> lista,string patente, string path ){
-            int indice = -1;
-            if( encontrarPatente( lista, patente, ref indice ) ){
+            int indice = encontrarPatente( lista, patente );
+            if( indice >= 0 ){
                 lista.RemoveAt(indice);
                 using( StreamWriter sw = new StreamWriter( path ) ){
                     foreach( Vehiculo v in lista ){
@@ -243,6 +285,8 @@ namespace trabajoPracticoPOO{
                 Console.WriteLine( "Vehiculo no encontrado." );
             }
         }
+        //Opcion 3
+        //public static void registrarCliente();
         //Opcion 5
         public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){
             if( lista.Count>0 ){
@@ -253,6 +297,18 @@ namespace trabajoPracticoPOO{
             }
             else{
                 Console.WriteLine("No se encontro ningun vehiculo registrado.");
+            }
+        }
+        //Opcion 6
+        public static void mostrarListadoDeClientes( List<Cliente> lista ){
+            if( lista.Count>0 ){
+                foreach( Cliente c in lista ){
+                    c.mostrar();
+                    Console.WriteLine("************");
+                }
+            }
+            else{
+                Console.WriteLine("No se encontro ningun cliente registrado.");
             }
         }
     }

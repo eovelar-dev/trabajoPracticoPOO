@@ -1,12 +1,12 @@
-Auto,HNX020,Chevrolet,Corsa Classic,2008,70000,True,3,False
-Auto,AXS183,Peugeot,206,2009,72000,True,5,False
-Auto,KNJ116,Volkswagen,Suran,2015,90000,True,5,True
-Auto,CXS246,Renault,Megane,2001,45000,True,5,False
+Auto,HNX020,Chevrolet,Corsa Classic,2008,20000,True,3,False
+Auto,AXS183,Peugeot,206,2009,22000,True,5,False
+Auto,KNJ116,Volkswagen,Suran,2015,30000,True,5,True
+Auto,CXS246,Renault,Megane,2001,1000,True,5,False
 Moto,ALS241,Honda,Wave,2022,9000,true,110
-Moto,MTX586,Yamaha,YBR Z,2021,22000,true,150
-Moto,AFT890,Benelli,TNT,2020,35000,false,300
-Moto,AHX132,Corven,Triax,2023,12000,true,150
-Camioneta,KAS198,Toyota,Hilux,2022,27000,true,1000,True
-Camioneta,TRA845,Ford,Ranger,2021,25000,true,850,True
-Camioneta,AEX894,Volkswagen,Amarok,2020,26000,false,900,False
-Camioneta,ADQ321,Nissan,Frontier,2023,28000,true,1000,True
+Moto,MTX586,Yamaha,YBR Z,2021,15000,true,150
+Moto,AFT890,Benelli,TNT,2020,25000,false,300
+Moto,AHX132,Corven,Triax,2023,15000,true,150
+Camioneta,KAS198,Toyota,Hilux,2022,40000,true,1000,True
+Camioneta,TRA845,Ford,Ranger,2021,37000,true,850,True
+Camioneta,AEX894,Volkswagen,Amarok,2020,36500,false,900,False
+Camioneta,ADQ321,Nissan,Frontier,2023,38000,true,1000,True
