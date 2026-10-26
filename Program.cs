@@ -56,8 +56,10 @@ namespace trabajoPracticoPOO{
                 break;
                 case 3: registrarCliente( listaDeClientes, pathClientes );
                 teclaParaContinuar();
+                break; 
+                case 4: realizarAlquiler( listaDeClientes, listaDeVehiculos, listaDeAlquileres, pathAlquileres );
+                teclaParaContinuar();
                 break;
-                case 4: break;
                 case 5: mostrarListadoDeVehiculos( listaDeVehiculos );
                 teclaParaContinuar();
                 break;
@@ -340,6 +342,55 @@ namespace trabajoPracticoPOO{
                 Console.WriteLine( ex.Message );
                 teclaParaContinuar();
             }
+        }
+        //Opcion 4
+       public static void realizarAlquiler( List<Cliente> clientes, List<Vehiculo> vehiculos, List<Alquiler> alquileres, string path ){
+            int dni, dias;
+            string patente;
+            int indiceCliente;
+            int indiceVehiculo;
+            try{
+                Console.Write("[DNI del cliente]: ");
+                dni = int.Parse( Console.ReadLine() );
+                indiceCliente = encontrarCliente( clientes, dni );
+                if( indiceCliente<0 ){
+                    throw new ClienteNoEncontradoException();
+                }
+                Console.Write("[Patente del vehiculo]: ");
+                patente = Console.ReadLine();
+                indiceVehiculo = encontrarPatente(vehiculos,patente);
+                if( indiceVehiculo<0 ){
+                    throw new VehiculoNoEncontradoException();
+                }
+                else if( !vehiculos[indiceVehiculo].estaDISPONIBLE ){
+                    throw new VehiculoNoDisponibleException();
+                }
+                Console.Write(" [Duracion en dias]: ");
+                dias = int.Parse( Console.ReadLine() );
+                alquileres.Add( new Alquiler( clientes[indiceCliente], vehiculos[indiceVehiculo],dias ) );
+                Console.WriteLine("Alquiler registrado correctamente.");
+            }
+            catch( ClienteNoEncontradoException ex ){
+                Console.WriteLine( ex.Message );
+                teclaParaContinuar();
+            }
+            catch( VehiculoNoEncontradoException ex ){
+                Console.WriteLine( ex.Message );
+                teclaParaContinuar();
+            }
+            catch( VehiculoNoDisponibleException ex ){
+                Console.WriteLine( ex.Message );
+                teclaParaContinuar();
+            }
+            catch( FormatException ex ){
+                Console.WriteLine( ex.Message );
+                teclaParaContinuar();
+            }
+            catch( OverflowException ex ){
+                Console.WriteLine( ex.Message );
+                teclaParaContinuar();
+            }
+            
         }
         //Opcion 5
         public static void mostrarListadoDeVehiculos( List<Vehiculo> lista ){

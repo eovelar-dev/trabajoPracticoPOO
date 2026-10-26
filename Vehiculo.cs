@@ -28,6 +28,11 @@ namespace trabajoPracticoPOO{
                 return patente;
             }
         }
+        public bool estaDISPONIBLE{
+            get{
+                return estaDisponible;
+            }
+        } 
         public bool SEGURO{
             get{
                 return seguroAdicional;

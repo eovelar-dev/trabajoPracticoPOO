@@ -15,13 +15,11 @@ namespace trabajoPracticoPOO{
             this.dni = dni;
             this.telefono = telefono;
         }
-        public Cliente( string nombre, string apellido, int dni ){
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.dni = dni;
-        }
         public Cliente( int dni ){
+            nombre = "Desconocido";
+            apellido = "Desconocido";
             this.dni = dni;
+            telefono = 0;
         }
 
         //Propiedad get
