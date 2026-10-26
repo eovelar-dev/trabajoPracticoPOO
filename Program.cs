@@ -1,4 +1,9 @@
-﻿using System;
+﻿/************************\  
+*   Enzo Nahuel Ovelar  *
+*   Comision 6          *
+*   Legajo: 108065      *
+*************************/
+using System;
 using System.Collections.Generic;
 using System.IO;
 namespace trabajoPracticoPOO{
